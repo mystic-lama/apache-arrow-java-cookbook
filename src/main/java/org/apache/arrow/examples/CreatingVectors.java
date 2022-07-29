@@ -46,7 +46,7 @@ public class CreatingVectors {
         }
     }
 
-    public void dictonaryEncodeVarcharArray() {
+    public void dictionaryEncodeVarcharArray() {
         try (BufferAllocator root = new RootAllocator();
              VarCharVector countries = new VarCharVector("country-dict", root);
              VarCharVector appUserCountriesUnencoded = new VarCharVector("app-use-country-dict", root)
@@ -114,7 +114,7 @@ public class CreatingVectors {
         CreatingVectors creatingVectors = new CreatingVectors();
         creatingVectors.createIntVectors();
         creatingVectors.createVarCharVectors();
-        creatingVectors.dictonaryEncodeVarcharArray();
+        creatingVectors.dictionaryEncodeVarcharArray();
         creatingVectors.encodeArrayOfList();
     }
 
