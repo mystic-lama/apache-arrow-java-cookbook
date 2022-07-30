@@ -8,13 +8,11 @@ import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.memory.RootAllocator;
 import org.apache.arrow.vector.VectorSchemaRoot;
 import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericDatumWriter;
-import org.apache.avro.io.*;
+import org.apache.avro.io.BinaryDecoder;
+import org.apache.avro.io.DecoderFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.List;
 
 public class AvroToArrowExample {
 
@@ -22,7 +20,7 @@ public class AvroToArrowExample {
         BufferAllocator allocator = new RootAllocator(Long.MAX_VALUE);
         AvroToArrowConfig config = new AvroToArrowConfigBuilder(allocator).build();
 
-        BinaryDecoder decoder = new DecoderFactory().binaryDecoder(new FileInputStream("src/main/resources/avro/users.avro"), null);
+        BinaryDecoder decoder = new DecoderFactory().binaryDecoder(new FileInputStream("users_noschema.avro"), null);
 
         Schema schema = new Schema.Parser().parse(new File("src/main/resources/avro/user.avsc"));
         AvroToArrowVectorIterator avroToArrowVectorIterator = AvroToArrow.avroToArrowIterator(schema, decoder, config);
