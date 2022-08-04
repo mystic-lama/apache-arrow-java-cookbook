@@ -11,6 +11,7 @@ import org.apache.arrow.vector.dictionary.Dictionary;
 import org.apache.arrow.vector.dictionary.DictionaryEncoder;
 import org.apache.arrow.vector.types.pojo.ArrowType;
 import org.apache.arrow.vector.types.pojo.DictionaryEncoding;
+import org.apache.arrow.vector.util.TransferPair;
 
 import java.nio.charset.StandardCharsets;
 
@@ -110,12 +111,52 @@ public class CreatingVectors {
         }
     }
 
+    public void slicing() {
+        try (BufferAllocator allocator = new RootAllocator();
+             IntVector vector = new IntVector("intVector", allocator);) {
+            for (int i = 0; i < 10; i++) {
+                vector.setSafe(i, i);
+            }
+            vector.setValueCount(10);
+
+            TransferPair tp = vector.getTransferPair(allocator);
+            tp.splitAndTransfer(0, 5);
+            IntVector sliced = (IntVector) tp.getTo();
+            System.out.println("--------");
+            System.out.print(sliced);
+            System.out.println("--------");
+            sliced.clear();
+        }
+
+    }
+
+    public void slicingNonZeroIndex() {
+        try (BufferAllocator allocator = new RootAllocator();
+             IntVector vector = new IntVector("intVector", allocator);) {
+            for (int i = 0; i < 10; i++) {
+                vector.setSafe(i, i);
+            }
+            vector.setValueCount(10);
+
+            TransferPair tp = vector.getTransferPair(allocator);
+            tp.splitAndTransfer(2, 6);
+            IntVector sliced = (IntVector) tp.getTo();
+            System.out.println("--------");
+            System.out.print(sliced);
+            System.out.println("--------");
+            sliced.clear();
+        }
+
+    }
+
     public static void main(String[] args) {
         CreatingVectors creatingVectors = new CreatingVectors();
         creatingVectors.createIntVectors();
         creatingVectors.createVarCharVectors();
         creatingVectors.dictionaryEncodeVarcharArray();
         creatingVectors.encodeArrayOfList();
+        creatingVectors.slicing();
+        creatingVectors.slicingNonZeroIndex();
     }
 
 }
