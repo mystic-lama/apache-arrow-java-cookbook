@@ -211,11 +211,11 @@ public class IO {
 
     public static void main(String[] args) {
         IO io = new IO();
-        io.writeToFile();
-        io.writeToBuffer();
+//        io.writeToFile();
+//        io.writeToBuffer();
         io.readFromFile();
-        io.readFromBuffer();
-        io.writeReadDataWithDictionary();
+//        io.readFromBuffer();
+//        io.writeReadDataWithDictionary();
     }
 
 }
